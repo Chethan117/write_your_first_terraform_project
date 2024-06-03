@@ -1,3 +1,0 @@
-Identify recent rule changes (within the last 30 days) that have been modified or implemented.
-Check if these rule changes have gone through the implementation checking process.
-In summary, the overall purpose of this code is to identify recent rule changes that have not yet been through the implementation checking process,
