@@ -1,0 +1,11 @@
+Background (Why):
+
+Identify potential exceptions related to merchant refunds for accounts with zero balance.
+Intent (What):
+
+Find cases where a customer's account balance was zero around the time a merchant refund was processed.
+Method (How):
+
+Stage data (temporary tables): Identify recently confirmed frozen accounts and their associated refunds within the past year.
+Analyze and correlate: Search for instances where the account balance was zero around the refund date.
+Filter and load: Include cases where the zero balance occurred within a specific window relative to the frozen account date, and load results into a permanent table.
