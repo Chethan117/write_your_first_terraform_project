@@ -26,3 +26,45 @@ Find transactions for those accounts within a specific date range (past week) us
 Filter transactions based on category and type (debit transactions excluding specific categories).
 Join the data with account balance history to ensure the balance was positive at the transaction time.
 Combine and format the results into a single table 
+
+
+Background (Why):
+
+Identify credit transactions on potentially compromised accounts (frozen within the past year).
+Differentiate between credits potentially associated with fraudulent activity (no corresponding debit) and those with adjustments (corresponding debit exists).
+Intent (What):
+
+Find credit transactions for accounts that were frozen in the past year but don't have a corresponding debit transaction.
+Classify these credits as "definite," "probable," or "undetermined" based on the presence of a frozen account status around the authorization time of the credit.
+
+Method (How):
+
+Identify recently frozen accounts (FRD_ACCTS).
+Find credit transactions (CREDITS) for those accounts, filtering for Mastercard/Visa transactions within the past 30 days.
+Check for corresponding debit transactions (CREDITS_STG2) on the same account within the past year, excluding debits originating from the bank itself (BO).
+Look for authorization records (AUTH_JOIN) associated with the credit transactions to identify potential frozen status around the authorization time.
+Classify the credits based on the presence of a corresponding debit and authorization record:
+"Definite": Corresponding debit with frozen status during authorization.
+"Probable": No corresponding debit but frozen status during authorization.
+"Undetermined": No corresponding debit or insufficient information for classification.
+Identify potential "adjusted" credits with corresponding debits originating from the bank (DEBITS_STG2).
+Combine credit information with debit details and classification (CREDITS_STG4).
+Refine classification based on presence of a frozen account status around the debit authorization time (CREDITS_STG5).
+Load the final results (account details, transaction information, and classification) into a permanent table
+
+
+
+Background (Why):
+
+Identify recently frozen accounts (within the last 10 days) that had multiple credit transactions within the past five days (excluding the most recent two days).
+Focus on accounts where the balance was negative at the time of the transactions.
+Intent (What):
+
+Find accounts that were recently frozen and then had a burst of credit transactions shortly after, with a negative balance.
+This might indicate attempts to exploit the frozen account before the balance is restricted.
+Method (How):
+
+Identify recently frozen accounts (FRD_STAT_CD) using account status history.
+Find transactions for those accounts within a specific date range (past five days, excluding the most recent two days) using transaction history.
+Join the data with account balance history to ensure the balance was negative at the transaction time.
+Combine and format the results into a single table
