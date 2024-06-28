@@ -9,3 +9,20 @@ Method (How):
 Stage data (temporary tables): Identify recently confirmed frozen accounts and their associated refunds within the past year.
 Analyze and correlate: Search for instances where the account balance was zero around the refund date.
 Filter and load: Include cases where the zero balance occurred within a specific window relative to the frozen account date, and load results into a permanent table.
+
+
+Background (Why):
+
+Identify recently frozen accounts (within the last 10 days) that have had debit transactions within the past week.
+Focus on specific transaction categories (excluding cash advances, balance transfers, and some types of insurance).
+Intent (What):
+
+Find accounts that were recently frozen and then had debit transactions shortly after.
+This might indicate suspicious activity on the account.
+Method (How):
+
+Identify recently frozen accounts (FRD_STAT_CD) using account status history.
+Find transactions for those accounts within a specific date range (past week) using transaction history.
+Filter transactions based on category and type (debit transactions excluding specific categories).
+Join the data with account balance history to ensure the balance was positive at the transaction time.
+Combine and format the results into a single table 
